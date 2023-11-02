@@ -3,6 +3,7 @@ This repository is contains the project files that deal with the creation of a w
 
 Official Start of Version 1
 - November 2, 2023
+- Python Version: 3.12.0
 
 # Structure of a streamlit application
 - .streamlit/
@@ -47,12 +48,12 @@ Official Start of Version 1
 
 
 
-# Documentation of Creation
+# Documentation of Workflow
 - Create a new repository in Github named "wind-energy-dashboard-streamlit" with a license and readme.md
 - Create a .gitignore file that to disallow the uploading of **/.DS_Store
 - Creation and activation of a virtual environment wind-energy-streamlit
   - Creation: `python3 -m venv wind-energy-streamlit`
-  - Activation: `source wind-energy-streamlit/bin/activate `
+  - Activation: `source wind-energy-streamlit/bin/activate`
   - Deactivation: `deactivate`
 - Creation and use of a requirements.txt file which indicates all required packages for the project
   - Installation: `pip3 install -r requirements.txt`
