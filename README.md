@@ -55,3 +55,8 @@ Official Start of Version 1
   - Activation: `source wind-energy-streamlit/bin/activate `
   - Deactivation: `deactivate`
 - Creation and use of a requirements.txt file which indicates all required packages for the project
+  - Installation: `pip3 install -r requirements.txt`
+- Uploaded the dataset to its folder
+- Connected to the PostGres Server using SQLTools and Postgres Driver. 
+- Created database, schema, and table for the dataset using raw SQL. 
+- Created a ipynb that shows the same process but in a python environment 
