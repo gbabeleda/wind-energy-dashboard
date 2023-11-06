@@ -1,1 +1,0 @@
-CREATE DATABASE wind_energy;
