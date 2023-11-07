@@ -1,27 +1,19 @@
 # Wind Energy Dashboard via Streamlit
-## Repository Description
 
-This repository
+This repository holds the project files to build a wind resource assessment dashboard of one particular wind site at the University of the Philippines Diliman as of Version 1.0. 
+
+Production for Version 1.0 officially started on Nov 2, 2023 and uses Python 3.12.0
 
 ## Data Declaration
 
+The data used in this project was provided by the Energy Engineering 205 course under the Energy Engineering Program at the University of the Philippines Diliman.
 
+This project is purely a educational and training endeavour, and does not aim to infringe on the copyright of the data. 
 
+# Project Details
 
+This project is a first attempt at making a streamlit project, and aims to follow a standard streamlit structure to some degree, as seen below:
 
-
-
-
-
-This repository is contains the project files that deal with the creation of a wind resource assessment dashboard using streamlit.
-
-The wind dataset contained was provided via the EgyE 205 course under the Energy Engineering Program in the University of the Philippines Diliman. This dashboard respects the copyright of University, and this application is not meant for any non-educational purposes. 
-
-Official Start of Version 1
-- November 2, 2023
-- Python Version: 3.12.0
-
-# Structure of a streamlit application
 - .streamlit/
   - config.toml
 - app.py
@@ -46,7 +38,12 @@ Official Start of Version 1
 - templates/
   - custom_template.html
 
-### Explanation
+It uses a virtual environment, with packages seen in the requirements.txt file. 
+
+An additional folder is the notebooks-sql folder which holds all the notebooks where most of the development actually took place. 
+
+A brief description of the roles/parts of the streamlit app can be seen below. 
+
 - app.py is the main entry point of the streamlit app
 - .streamlit/config.toml optional configuration file for setting up thigns like theme, page title, etc. 
 - requirements.txt a list of python packages that are required for the app to run
@@ -57,20 +54,25 @@ Official Start of Version 1
 - static/ holds static assets like images, css files for styling, and javascript files if necessary
 - templates/ if you need custom HTML templates
 
-## Additional
-- virtual_environment/ (venv/)
-- sql/ 
+# Project Worklog
+Setup
+- Create new repository on Github
+- Create .gitignore file for **/.DS_Store, .vscode/, .virtual_environment
+- Create relevant folders/files for streamlit project: data, modules, static, app.py, requirements.txt
+- Create virtual environment using `venv`
+- Populate requirements.txt and install via pip3 install -r requirements.txt` to virtual environment
+- Data in a excel file was uploaded to data folder
 
-# Documentation of Workflow
-- Create a new repository in Github named "wind-energy-dashboard-streamlit" with a license and readme.md
-- Create a .gitignore file that to disallow the uploading of **/.DS_Store, .vscode/ (for the sql connection), .virtual_environment
-- Creation and activation of a virtual environment virtual_environment
-  - Creation: `python3 -m venv virtual_environment`
-  - Activation: `source virtual_environment/bin/activate`
-  - Deactivation: `deactivate`
-- Creation and use of a requirements.txt file which indicates all required packages for the project
-  - Installation: `pip3 install -r requirements.txt`
-- Uploaded the dataset to its folder
-- Connected to the PostGres Server using SQLTools and Postgres Driver. 
-- Created database, schema, and table for the dataset using raw SQL. 
-- Created a ipynb that shows the same process but in a python environment 
+Create analysis modules
+- As mentioned in the jupyter notebooks, there are multiple ways to actually do analysis on the dataset including
+  - Pure excel
+  - Pure Python via Pandas
+  - Mixed SQL and Python via PostgreSQL and Pandas
+  - Possibly Google BigQuery
+
+Pure Python
+- Created ETL function for excel/csv file into no null-containing dataframe
+- Created diurnal variation function 
+
+Mixed SQL
+
