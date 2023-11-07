@@ -1,3 +1,19 @@
+-- Test Results
+-- The COUNT(*) of the original dataset and the SUM(frequency) are equivalent
+-- MaxWindSpeed returns 12
+-- Binned Speed
+-- Seems like all the bins are correct
+-- COUNT(*) is the same as original dataset
+-- the monthly_total column seems correct and adds the count of all rows that have the same year, month
+
+-- Learnings
+-- Creating a view
+-- Using a CTE via WITH cte AS () statement
+-- Using the width_bucket() function
+-- Using the extract() function
+-- Using a window function. Study this more. 
+
+
 CREATE OR REPLACE VIEW wind_sites.frequency_distribution AS
 WITH MaxWindSpeed AS(
 	SELECT
@@ -10,6 +26,11 @@ BinnedSpeed AS (
 		EXTRACT(YEAR FROM date_time) AS year,
 		EXTRACT(MONTH FROM date_time) AS month,
 		wind_speed, 
+        -- The width bucket takes the following arguments with data types
+        -- operand double precision
+        -- b1 double precision
+        -- b2 double precision
+        -- count integer
 		width_bucket(
 			CAST(wind_speed AS double precision),
 			0,
