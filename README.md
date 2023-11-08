@@ -204,7 +204,9 @@ A brief description of the roles/parts of the streamlit app can be seen below.
 - Create new repository on Github
 - Create .gitignore file for **/.DS_Store, .vscode/, .virtual_environment
 - Create relevant folders/files for streamlit project: data, modules, static, app.py, requirements.txt
-- Create virtual environment using `venv`
+- Create virtual environment using `python3 -m venv wind_dashboard`
+- Activate using `source wind_dashboard/bin/activate`
+- Deactivate using `deactivate`
 - Populate requirements.txt and install via `pip3 install -r requirements.txt` to virtual environment
 - Data in a excel file was uploaded to data folder
 
