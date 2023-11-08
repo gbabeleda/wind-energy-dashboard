@@ -15,4 +15,4 @@ nbconvert==7.11.0                # Convert jupyter notebooks into other formats
 ipython==8.16.1                 # Enhanced interactive python shell
 ipykernel==6.25.2               # ipython kernel for jupyter, allows use of ipython within jupyter notebooks
 google-cloud-bigquery==3.12.0   # May be used to host data on bigquery
-vizro
+vizro==0.1.5                    #
