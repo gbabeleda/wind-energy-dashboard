@@ -16,7 +16,6 @@ The project has three main goals:
 - Use python and SQL, either together or separately for the analysis and data visualization to demonstrate skill proficiency
 - Use streamlit to create a custom dashboard to demonstrate skill proficiency
 
-
 # Domain Knowledge: Wind Resource Assessment
 ### Data Availability
 Not required for the project, however it is important to understand the availability of the data for the entire year, if not simply to avoid the months where data is incomplete for data needed 30/31 days out of a month
@@ -118,12 +117,43 @@ $$ A = \frac {2}{\sqrt \pi}v_m$$
 
 # SQL and Python: Analysis and Visualization
 
+### Pure Python
+
+Create analysis modules
+- As mentioned in the jupyter notebooks, there are multiple ways to actually do analysis on the dataset including
+  - Pure excel
+  - Pure Python via Pandas
+  - Mixed SQL and Python via PostgreSQL and Pandas
+  - Possibly Google BigQuery
+
+### Pure Python
+- Created ETL function for excel/csv file into no null-containing dataframe
+- Created diurnal variation function that returns subset dataframe
+- Created wind rose function that returns subset dataframe
+- Created frequency distribution function that returns subset dataframe
 
 
 
 
 
+### Mixed SQL
 
+#### SQL
+We can use either raw SQL with SQLTools or pgAdmin, or "indirectly" with psycopg2. Sample implementations for psycopg2 will be stored in notebooks-sql folder
+
+- Setup PostgreSQL server instance on local machine
+- Create a new database
+- Create a schema in database
+- Create a table in schema
+- Create views in schema for easier querying later.
+  - The data found in each view can be seen in the Domain Knowledge section
+  - The data can be then exported as CSVs as well. 
+
+#### Python
+
+We can then use a mix of psycopg2 and pandas to query those views for specific months and days. 
+
+We can also use python to create the data visualizations via the plotly library
 
 # Streamlit: Dashboard Project
 
@@ -170,38 +200,11 @@ A brief description of the roles/parts of the streamlit app can be seen below.
 - static/ holds static assets like images, css files for styling, and javascript files if necessary
 - templates/ if you need custom HTML templates
 
-# Project Worklog
-Project Setup
+### Project Setup
 - Create new repository on Github
 - Create .gitignore file for **/.DS_Store, .vscode/, .virtual_environment
 - Create relevant folders/files for streamlit project: data, modules, static, app.py, requirements.txt
 - Create virtual environment using `venv`
 - Populate requirements.txt and install via `pip3 install -r requirements.txt` to virtual environment
 - Data in a excel file was uploaded to data folder
-
-Create analysis modules
-- As mentioned in the jupyter notebooks, there are multiple ways to actually do analysis on the dataset including
-  - Pure excel
-  - Pure Python via Pandas
-  - Mixed SQL and Python via PostgreSQL and Pandas
-  - Possibly Google BigQuery
-
-Pure Python
-- Created ETL function for excel/csv file into no null-containing dataframe
-- Created diurnal variation function that returns subset dataframe
-- Created wind rose function that returns subset dataframe
-- Created frequency distribution function that returns subset dataframe
-
-Mixed SQL
-
-We can use either raw SQL with SQLTools or pgAdmin, or "indirectly" with psycopg2. Sample implementations for psycopg2 will be stored in notebooks-sql folder
-
-- Setup PostgreSQL server instance on local machine
-- Create a new database
-- Create a schema in database
-- Create a table in schema
-- Create views in schema for easier querying later.
-  - The data found in each view can be seen in the Domain Knowledge section
-  - The data can be then exported as CSVs as well. 
-  - The view can then be queried for specific months and days
 
