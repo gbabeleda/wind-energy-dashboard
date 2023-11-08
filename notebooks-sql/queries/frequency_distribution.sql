@@ -21,6 +21,8 @@ WITH MaxWindSpeed AS(
 	FROM
 		wind_sites.upd_wind_site
 ),
+
+-- 
 BinnedSpeed AS (
 	SELECT 
 		EXTRACT(YEAR FROM date_time) AS year,

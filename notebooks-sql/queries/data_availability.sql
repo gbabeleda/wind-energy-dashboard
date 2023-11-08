@@ -15,7 +15,7 @@
 -- GROUP BY year, month
 -- ;
 
-DROP VIEW wind_sites.data_availability;
+-- DROP VIEW wind_sites.data_availability;
 
 CREATE OR REPLACE VIEW wind_sites.data_availability AS
 SELECT 
