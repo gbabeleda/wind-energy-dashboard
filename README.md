@@ -210,3 +210,6 @@ A brief description of the roles/parts of the streamlit app can be seen below.
 - Populate requirements.txt and install via `pip3 install -r requirements.txt` to virtual environment
 - Data in a excel file was uploaded to data folder
 
+# Hosting
+
+I will use heroku
