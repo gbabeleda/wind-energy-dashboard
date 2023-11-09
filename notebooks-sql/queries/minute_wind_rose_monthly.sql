@@ -78,15 +78,14 @@ TotalCounts AS (
 		year,
 		month,
 		year_month,
-		cardinal_direction,
 		COUNT(*) AS count_total
 	FROM 
 		CardinalDirections
 	GROUP BY 
 		year,
 		month,
-		year_month,
-		cardinal_direction
+		year_month
+
 ), 
 -- Percent Frequency of count_speed_bin / count_total per direction,
 -- day, and month
@@ -100,7 +99,7 @@ PercentFrequency AS (
 		f.count_speed_bin, 
 		tc.count_total,
 		-- above converted to percentage
-		ROUND(f.count_speed_bin * 100.0) / tc.count_total AS percent_frequency
+		ROUND((f.count_speed_bin * 100.0) / tc.count_total,3)  AS percent_frequency
 	FROM 
 		Frequency AS f
 	JOIN 
@@ -108,13 +107,12 @@ PercentFrequency AS (
 	ON
 		f.year = tc.year AND
 		f.month = tc.month AND
-		f.year_month = tc.year_month AND
-		f.cardinal_direction = tc.cardinal_direction
+		f.year_month = tc.year_month 
 	ORDER BY
 		year,
 		month,
 		year_month,
-		cardinal_direction,
+		f.cardinal_direction,
 		speed_bin
 ), 
 
@@ -135,6 +133,7 @@ CumulativeFrequency AS (
 		pf.speed_bin,
 		pf.count_speed_bin,
 		pf.count_total,
+		pf.percent_frequency,
 		SUM(pf.percent_frequency) OVER ( 
 			PARTITION BY pf.year, pf.month, pf.year_month, pf.cardinal_direction 
 			ORDER BY pf.speed_bin
@@ -151,7 +150,8 @@ SELECT
 	speed_bin,
 	count_speed_bin,
 	count_total,
-	ROUND(cumulative_percent_frequency,3) as cumulative_percent
+	percent_frequency,
+	cumulative_percent_frequency
 FROM
 	CumulativeFrequency
 ORDER BY
