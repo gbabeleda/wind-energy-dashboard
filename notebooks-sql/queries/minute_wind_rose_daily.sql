@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW wind_sites.minute_wind_rose_daily
+CREATE OR REPLACE VIEW wind_sites.minute_wind_rose_daily AS
 WITH MaxWindSpeed AS ( 
 	SELECT
 		CEIL(MAX(wind_speed)) AS max_speed
