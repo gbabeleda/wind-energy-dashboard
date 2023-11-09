@@ -14,37 +14,42 @@
 -- Using a window function. Study this more. 
 
 
-CREATE OR REPLACE VIEW wind_sites.frequency_distribution AS
+-- Final and Correct mostly have some 99.99 stuff
+CREATE OR REPLACE VIEW wind_sites.frequency_distribution_monthly AS
+-- Identifies max speed in the dataset
 WITH MaxWindSpeed AS(
 	SELECT
-		CEIL(MAX(wind_speed)) AS max_speed -- This calculates the ceil max of the entire dataset
+		CEIL(MAX(wind_speed)) AS max_speed
 	FROM
 		wind_sites.upd_wind_site
 ),
-
--- 
+-- Creates wind speed bins
+-- First time using a width bucket to do data binning
+-- The width bucket takes the following arguments with data types
+-- (operand double precision, b1 double precision, b2 double precision, count integer)
 BinnedSpeed AS (
 	SELECT 
 		EXTRACT(YEAR FROM date_time) AS year,
 		EXTRACT(MONTH FROM date_time) AS month,
+        TO_CHAR(date_time, 'YYYY-FMMonth') as year_month,
 		wind_speed, 
-        -- The width bucket takes the following arguments with data types
-        -- operand double precision
-        -- b1 double precision
-        -- b2 double precision
-        -- count integer
+
 		width_bucket(
 			CAST(wind_speed AS double precision),
 			0,
-			CAST((SELECT max_speed FROM MaxWindSpeed) AS double precision), -- this is the max speed of entire dataset
-			CAST((SELECT max_speed FROM MaxWindSpeed) AS integer) -- must be an int. We can cast it explicitly
+			CAST((SELECT max_speed FROM MaxWindSpeed) AS double precision), 
+			CAST((SELECT max_speed FROM MaxWindSpeed) AS integer) 
 		) AS speed_bin
 	FROM 
 		wind_sites.upd_wind_site
-), MonthlyCounts AS (
+), 
+-- First time using window functions
+-- group by speed_bin with count means that those with 0 count arent shown
+MonthlyCounts AS (
     SELECT
         year,
         month,
+        year_month,
         speed_bin,
         COUNT(*) AS frequency,
         SUM(COUNT(*)) OVER (PARTITION BY year,month) AS monthly_total
@@ -53,11 +58,14 @@ BinnedSpeed AS (
     GROUP BY 
         year,
         month,
-        speed_bin -- group by speed_bin with count means that those with 0 count arent shown
+        year_month,
+        speed_bin 
 )
+-- Final Select
 SELECT
     year,
     month,
+    year_month
     speed_bin,
     frequency,
     ROUND((frequency / monthly_total) * 100,2) as percent_frequency
@@ -66,5 +74,6 @@ FROM
 ORDER BY
     year,
     month,
+    year_month,
     speed_bin
 ;

@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW wind_sites.cumulative_frequency_cardinal_directions AS
+CREATE OR REPLACE VIEW wind_sites.wind_rose_yearly AS
 WITH MaxWindSpeed AS ( -- determining max speed over the entire dataset to determine the maximum number of speed_bins
 	SELECT
 		CEIL(MAX(wind_speed)) AS max_speed
@@ -7,8 +7,6 @@ WITH MaxWindSpeed AS ( -- determining max speed over the entire dataset to deter
 ), BinnedSpeed AS ( -- assigns each wind_speed and wind_direction to a speed_bin for use later
 	SELECT 
 		EXTRACT(YEAR FROM date_time) AS year,
-		EXTRACT(MONTH FROM date_time) AS month,
-		EXTRACT(DAY FROM date_time) AS day,
 		wind_speed,
 		wind_direction,
 		width_bucket( -- use of width bucket to create bins. Can also use CASE WHEN if ever
@@ -22,8 +20,6 @@ WITH MaxWindSpeed AS ( -- determining max speed over the entire dataset to deter
 ), CardinalDirections AS ( -- assigns a wind_direction to a cardinal_direction
 	SELECT
 		year,
-		month,
-		day, 
 		wind_speed, 
 		wind_direction, -- included for sake of confirming if cardinal_direction is correct
 		CASE 
@@ -44,11 +40,9 @@ WITH MaxWindSpeed AS ( -- determining max speed over the entire dataset to deter
 ), Frequency AS (
 	SELECT	
 		year,
-		month,
-		day,
 		cardinal_direction,
 		speed_bin,
-		COUNT(*) OVER (PARTITION BY year, month, day, cardinal_direction,speed_bin) AS bin_count -- window function
+		COUNT(*) OVER (PARTITION BY year, cardinal_direction,speed_bin) AS bin_count -- window function
 		-- window function is a feature that performs calculations across a set of table rows that are somehow related
 		-- COUNT(*) count all rows
 		-- OVER signifiees COUNT should be applied over a window of rows defined by PARTITION BY
@@ -59,28 +53,22 @@ WITH MaxWindSpeed AS ( -- determining max speed over the entire dataset to deter
 	FROM	
 		-- IMPORTANT
 		-- THIS IS DONE TO AVOID ROW DUPLICATION FOR SOME REASON
-		(SELECT DISTINCT year, month, day, cardinal_direction, speed_bin FROM CardinalDirections) AS unique_measurements
+		(SELECT DISTINCT year, cardinal_direction, speed_bin FROM CardinalDirections) AS unique_measurements
 ), TotalCounts AS ( 
 	-- counts all the instances of a wind record in that particular wind_direction for a given year,month,day
 	-- deliberately merges all speed_bins for comparison later
 	SELECT	
 		year,
-		month,
-		day,
 		cardinal_direction,
 		COUNT(*) AS total_count
 	FROM 
 		CardinalDirections
 	GROUP BY 
 		year,
-		month,
-		day,
 		cardinal_direction
 ), PercentFrequency AS ( 
 	SELECT	
 		f.year,
-		f.month,
-		f.day,
 		f.cardinal_direction,
 		f.speed_bin,
 		f.bin_count, -- frequency of wind records given the above comination
@@ -91,21 +79,17 @@ WITH MaxWindSpeed AS ( -- determining max speed over the entire dataset to deter
 		TotalCounts AS tc
 	ON
 		f.year = tc.year AND
-		f.month = tc.month AND
-		f.day = tc.day AND
 		f.cardinal_direction = tc.cardinal_direction
 ), CumulativeFrequency AS (
 	-- this is the part where shit gets wild
 	-- I have no idea how to compute cumulative anything in python even, much less SQL
 	SELECT	
 		pf.year,
-		pf.month,
-		pf.day,
 		pf.cardinal_direction,
 		pf.speed_bin,
 		-- the following is a window function again
 		SUM(pf.percent_frequency) OVER ( 
-			PARTITION BY pf.year, pf.month, pf.day, pf.cardinal_direction 
+			PARTITION BY pf.year, pf.cardinal_direction 
 			ORDER BY pf.speed_bin
 			ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
 		) AS cumulative_percent_frequency
@@ -120,8 +104,6 @@ WITH MaxWindSpeed AS ( -- determining max speed over the entire dataset to deter
 )
 SELECT 
 	year,
-	month,
-	day,
 	cardinal_direction,
 	speed_bin,
 	cumulative_percent_frequency

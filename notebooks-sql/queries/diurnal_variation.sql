@@ -1,3 +1,4 @@
+-- Final
 CREATE OR REPLACE VIEW wind_sites.diurnal_variation AS
 SELECT 
     EXTRACT(YEAR FROM date_time) AS year,
