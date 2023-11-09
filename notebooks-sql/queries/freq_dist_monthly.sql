@@ -33,7 +33,6 @@ BinnedSpeed AS (
 		EXTRACT(MONTH FROM date_time) AS month,
         TO_CHAR(date_time, 'YYYY-FMMonth') as year_month,
 		wind_speed, 
-
 		width_bucket(
 			CAST(wind_speed AS double precision),
 			0,
@@ -65,7 +64,7 @@ MonthlyCounts AS (
 SELECT
     year,
     month,
-    year_month
+    year_month,
     speed_bin,
     frequency,
     ROUND((frequency / monthly_total) * 100,2) as percent_frequency

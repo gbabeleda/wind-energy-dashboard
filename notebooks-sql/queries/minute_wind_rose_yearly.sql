@@ -1,15 +1,4 @@
--- Learnings
-
-
-
--- Notes 
--- Cardinal Directions returns 72394 records where wind_speed > 0 
--- Same as when querying original 
--- SUM(count_speed_bin) FROM Frequency returns 72394
--- SUM(count_total) FROM TotalCounts returns 72394
-
--- Final
-CREATE OR REPLACE VIEW wind_sites.5min_wind_rose_daily AS
+CREATE OR REPLACE VIEW wind_sites.minute_wind_rose_yearly AS
 WITH MaxWindSpeed AS ( 
 	SELECT
 		CEIL(MAX(wind_speed)) AS max_speed
@@ -19,9 +8,6 @@ WITH MaxWindSpeed AS (
 BinnedSpeed AS ( 
 	SELECT 
 		EXTRACT(YEAR FROM date_time) AS year,
-		EXTRACT(MONTH FROM date_time) AS month,
-		TO_CHAR(date_time, 'YYYY-FMMonth') as year_month,
-		EXTRACT(DAY FROM date_time) AS day,
 		wind_speed,
 		wind_direction,
 		width_bucket( 
@@ -33,14 +19,9 @@ BinnedSpeed AS (
 	FROM 
 		wind_sites.upd_wind_site
 ), 
--- assigns a wind_direction to a cardinal_direction
--- We do not want to consider those records with wind_speed = 0 
 CardinalDirections AS ( 
 	SELECT
 		year,
-		month,
-		year_month,
-		day, 
 		wind_speed, 
 		wind_direction,
 		CASE 
@@ -59,14 +40,9 @@ CardinalDirections AS (
 		BinnedSpeed
 	WHERE wind_speed > 0 
 ), 
--- Counts the number of wind records that fall into
--- year, month, year_month, day, cardinal_direction, speed_bin
 Frequency AS (
 	SELECT	
 		year,
-		month,
-		year_month,
-		day,
 		cardinal_direction,
 		speed_bin,
 		COUNT(*) AS count_speed_bin
@@ -75,45 +51,27 @@ Frequency AS (
 		CardinalDirections
 	GROUP BY
 		year,
-		month,
-		year_month,
-		day,
 		cardinal_direction,
 		speed_bin
 ), 
--- Counts number of wind records that fall into year, month, year_month,
--- day, cardinal_direction. Ignores speed_bin. 
--- So all wind records per direction
 TotalCounts AS ( 
 	SELECT	
 		year,
-		month,
-		year_month,
-		day,
 		cardinal_direction,
 		COUNT(*) AS count_total
 	FROM 
 		CardinalDirections
 	GROUP BY 
 		year,
-		month,
-		year_month,
-		day,
 		cardinal_direction
 ), 
--- Percent Frequency of count_speed_bin / count_total per direction,
--- day, and month
 PercentFrequency AS ( 
 	SELECT	
 		f.year,
-		f.month,
-		f.year_month,
-		f.day,
 		f.cardinal_direction,
 		f.speed_bin,
 		f.count_speed_bin, 
 		tc.count_total,
-		-- above converted to percentage
 		ROUND(f.count_speed_bin * 100.0) / tc.count_total AS percent_frequency
 	FROM 
 		Frequency AS f
@@ -121,39 +79,21 @@ PercentFrequency AS (
 		TotalCounts AS tc
 	ON
 		f.year = tc.year AND
-		f.month = tc.month AND
-		f.year_month = tc.year_month AND
-		f.day = tc.day AND
 		f.cardinal_direction = tc.cardinal_direction
 	ORDER BY
 		year,
-		month,
-		year_month,
-		day,
 		cardinal_direction,
 		speed_bin
 ), 
-
--- this is the part where shit gets wild
--- I have no idea how to compute cumulative anything in python even, much less SQL
--- the following is a window function again
--- SUM(pf.percent_frequency) calculates the sum of percent_frequency column values
-	-- OVER window function
-	-- PARTION BY divides the result set into partitions to which SUM is applied
-	-- Within each partition the sum is calculated independently
-	-- ORDER BY speed_bin
 CumulativeFrequency AS (
 	SELECT	
 		pf.year,
-		pf.month,
-		pf.year_month,
-		pf.day,
 		pf.cardinal_direction,
 		pf.speed_bin,
 		pf.count_speed_bin,
 		pf.count_total,
 		SUM(pf.percent_frequency) OVER ( 
-			PARTITION BY pf.year, pf.month, pf.year_month, pf.day, pf.cardinal_direction 
+			PARTITION BY pf.year, pf.cardinal_direction 
 			ORDER BY pf.speed_bin
 			ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
 		) AS cumulative_percent_frequency
@@ -162,21 +102,15 @@ CumulativeFrequency AS (
 )
 SELECT 
 	year,
-	month,
-	year_month,
-	day,
 	cardinal_direction,
 	speed_bin,
 	count_speed_bin,
 	count_total,
-	cumulative_percent_frequency
+	ROUND(cumulative_percent_frequency,3) as cumulative_percent
 FROM
 	CumulativeFrequency
 ORDER BY
 	year,
-	month,
-	year_month,
-	day,
 	cardinal_direction,
 	speed_bin
 ;
