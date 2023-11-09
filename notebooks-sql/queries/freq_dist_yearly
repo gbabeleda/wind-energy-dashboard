@@ -36,7 +36,7 @@ SELECT
     year,
     speed_bin,
     frequency,
-    ROUND((frequency / yearly_total) * 100,2) as percent_frequency
+    ROUND((frequency / yearly_total) * 100,3) as percent_frequency
 FROM 
     YearlyCounts
 ORDER BY

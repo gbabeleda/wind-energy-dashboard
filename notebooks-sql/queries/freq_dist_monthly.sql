@@ -67,7 +67,7 @@ SELECT
     year_month,
     speed_bin,
     frequency,
-    ROUND((frequency / monthly_total) * 100,2) as percent_frequency
+    ROUND((frequency / monthly_total) * 100,3) as percent_frequency
 FROM 
     MonthlyCounts
 ORDER BY
