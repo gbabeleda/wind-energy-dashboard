@@ -4,3 +4,10 @@ img[src*="#image"] {
     max-width: 1792px;
     max-height: 1024px;
 }
+
+img[src*="#banner"] {
+    width: 100%;
+    height: auto;
+    max-width: 1504px;
+    max-height: 859px;
+}
