@@ -1,6 +1,6 @@
 ![Image ALT text](assets/dalle-wind-farm.png)
 
-# Wind Energy Dashboard via Streamlit
+# Wind Energy Dashboard 
 
 This repository holds the project files to build a wind resource assessment dashboard of one particular wind site at the University of the Philippines Diliman designated as Version 1.0
 
