@@ -16,7 +16,7 @@ This project is purely a educational and training endeavour, and does not aim to
 The project has three main goals: 
 - Conduct a wind resource assessment analysis to demonstrate domain knowledge
 - Use python and SQL, either together or separately for the analysis and data visualization to demonstrate skill proficiency
-- Use streamlit to create a custom dashboard to demonstrate skill proficiency
+- Use a dashboarding library (Vizro/Streamlit/Dash) to create a custom dashboard to demonstrate skill proficiency
 
 # Domain Knowledge: Wind Resource Assessment
 ### Data Availability
@@ -25,7 +25,7 @@ Not required for the project, however it is important to understand the availabi
 Data Needed
 - Year
 - Month
-- Count of Distinct Days Per Month 
+- Count of Distinct Days Per Month where a wind data record was observed
 
 ### Diurnal Variation
 The diurnal variation of wind speed provides information about the availability of suitable winds for the entire 24 h of the day. To study this pattern, overall mean hourly values of wind speed should be shown
@@ -40,18 +40,17 @@ Data Needed
 ### Wind Rose Diagram 
 Another useful way of represtning wind data is the wind rose diagram. A close look at the wind rose and understanding its message correctly is important for siting wind turbines. If  a large share of wind/wind energy comes from a particular direction then the wind turbines should be placed or installed against the direction. 
 
-From Notes: Wind roses are constructed using hourly mean wind speed and corresponding wind direction values. 
-
-From me: What i did was count that number of occurences of the raw wind records at 5 minute intervals grouped by the speed bin and direction as well as the cumulative sum of the percent frequency. 
-
-I can modify the code to just use hourly mean speeds instead if desired. 
+We can do this with the average wind speeds and wind direcitons per hour, or from the raw wind data itself. Implementations of both will be done.
 
 Data Needed
   - Year
   - Month
   - Day
-  - Direction 
+  - Cardinal Direction 
   - Speed Bins 
+  - Count Occuring at Certain Cardinal Direction/Speed Bin Per Day
+  - Count Occuring Per Day
+  - Percent Frequency 
   - Cumulative Frequency
 
 ### Frequency Distribution
@@ -66,32 +65,32 @@ Data Needed
 - Frequency
 - Percent Frequency Per Speed Bin
 
-### Wind Speed Distribution aka Weibull Function aka Distribution Function
+### Wind Speed Distribution aka Weibull Function aka Distribution Function and Periodic Energy Production $YEY(v_m)$
 Power from the wind varies with the cube of wind speed. To determine energy output and technical potential, it is important to know the wind speed distribution $f(v)$. 
 
-The Weibull function is the most widely used to represent the distribution of the wind. This function expresses the possibility $f(v)$ to have a wind speed v during a year.
+The Weibull function is the most widely used to represent the distribution of the wind. This function expresses the possibility $f(v)$ to have a wind speed v during a year. This can be represtented by the function below:
 
 $$f(v) = \frac {\pi v}{2{(v_m)}^2} exp (\frac{\pi}{4}) (\frac{v}{v_m})^2$$
 
-Data Needed
-- to follow
+For the purpose of our analysis, we will set v in f(v) to be the same speeds seen in the power curve, p(v) of our reference turbine. 
 
-### Wind Shear
-
-To follow
-
-
-Data Needed
-- to follow
-
-### Periodic Energy Production $YEY(v_m)$ 
-When you combine the distribution function and the powercurve of a reference turbine, the periodic energy production can be calculated by integrating the power output at every bin width
+#### Periodic Energy Production  
+When you combine the distribution function and the powercurve of a reference turbine, the periodic energy production can be calculated by integrating the power output at every bin width. 
 
 $$YEY(v_m) = \sum_{v=1}^{25} f(v)P(v)8760$$
 
-
 Data Needed
-- to follow
+- Year
+- Month
+- Wind Shear 
+- Wind Turbine Speeds
+- p(v)
+- f(v)
+- f(v) * p(v) * 24 for Daily Energy Production
+- f(v) * p(v) * 8760 for Yearly Energy Production
+
+$YEY(v_m) = \sum_{v=1}^{25} f(v)P(v)24$
+$YEY(v_m) = \sum_{v=1}^{25} f(v)P(v)8760$
 
 ## Requirements
 Graphs
@@ -117,51 +116,59 @@ Where
 $$ A = \frac {2}{\sqrt \pi}v_m$$
 
 
-# SQL and Python: Analysis and Visualization
+# Analysis, Visualization, and Dashboarding
 
-### Pure Python
+## Analysis
 
-Create analysis modules
-- As mentioned in the jupyter notebooks, there are multiple ways to actually do analysis on the dataset including
-  - Pure excel
-  - Pure Python via Pandas
-  - Mixed SQL and Python via PostgreSQL and Pandas
-  - Possibly Google BigQuery
+- Pure Excel Analysis 
+- Pure Python Using Pandas Dataframes
+- The use of SQL for most of the analysis. There are several sub-categories for this:
+  - Use of tools like pgAdmin and SQLTools Extension in VS Code to do raw SQL 
+  - Use of sql connectors like psycopg
+  - Use of sql ORMs like sqlalchemy
+  - Use of sql magic commands
+- Use of a datawarehouse like Google Bigquery
 
-### Pure Python
-- Created ETL function for excel/csv file into no null-containing dataframe
-- Created diurnal variation function that returns subset dataframe
-- Created wind rose function that returns subset dataframe
-- Created frequency distribution function that returns subset dataframe
+For this work, we will be using SQL magic commands. 
 
+The workflow is as follows:
+- Setup a postgresql server instance on the local machine
+- Create a database, schema, and table 
+- Copy data from a clean csv of the wind data into the table
+- Query the data using the tool we chose (sql magic commands)
+- Transform the ResultSet Objects into dataframes for visualization and dashboarding
 
+## Visualization
 
+There are several python libraries for visualization 
+- Matplotlib
+- Seaborn
+- Plotly
+- Bokeh
+- etc
 
+For our purposes, we will be using Plotly for its interactivity and ease of downloading the result figures as pngs. 
 
-### Mixed SQL
+Specifically, we will be using the implementation of plotly in the dashboarding tool we will use, Vizro. 
 
-#### SQL
-We can use either raw SQL with SQLTools or pgAdmin, or "indirectly" with psycopg2. Sample implementations for psycopg2 will be stored in notebooks-sql folder
+## Dashboard
 
-- Setup PostgreSQL server instance on local machine
-- Create a new database
-- Create a schema in database
-- Create a table in schema
-- Create views in schema for easier querying later.
-  - The data found in each view can be seen in the Domain Knowledge section
-  - The data can be then exported as CSVs as well. 
+### Vizro
 
-#### Python
+Vizro is a wrapper of Dash, which is a wrapper of Flask. It was released in September, 2023. And I started using it Nov 8-9, 2023
 
-We can then use a mix of psycopg2 and pandas to query those views for specific months and days. 
+Its pretty useful because it filters the data visualization being shown based on certain controls that you set.
 
-We can also use python to create the data visualizations via the plotly library
+#### Vizro Project Structure
+
+It is structured similarly to a dash app
+
 
 # Streamlit: Dashboard Project
 
+This project can also be implemented in stramlit
 
-This project is a first attempt at making a streamlit project, and aims to follow a standard streamlit structure to some degree, as seen below:
-
+#### Streamlit Project Structure
 - .streamlit/
   - config.toml
 - app.py
@@ -202,16 +209,14 @@ A brief description of the roles/parts of the streamlit app can be seen below.
 - static/ holds static assets like images, css files for styling, and javascript files if necessary
 - templates/ if you need custom HTML templates
 
-### Project Setup
+# Project Setup
 - Create new repository on Github
 - Create .gitignore file for **/.DS_Store, .vscode/, .virtual_environment
-- Create relevant folders/files for streamlit project: data, modules, static, app.py, requirements.txt
+- Create relevant folders/files for dashboard project
 - Create virtual environment using `python3 -m venv wind_dashboard`
 - Activate using `source wind_dashboard/bin/activate`
-- Deactivate using `deactivate`
+  - Deactivate using `deactivate`
 - Populate requirements.txt and install via `pip3 install -r requirements.txt` to virtual environment
-- Data in a excel file was uploaded to data folder
 
 # Hosting
 
-I will use heroku
