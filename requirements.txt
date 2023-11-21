@@ -2,6 +2,7 @@ pandas==2.1.1                   # For data manipulation
 openpyxl==3.1.2                 # For excel file handling
 scipy==1.11.3                   # Scientific and technical computing
 numpy==1.26.0                   # For numerical computing
+scikit-learn
 plotly==5.17.0                  # For interactive plots
 matplotlib==3.8.0               # For static plots and dependencies
 seaborn==0.13.0                 # For static plots and dependencies
