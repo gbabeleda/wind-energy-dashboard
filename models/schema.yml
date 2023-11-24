@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: stg_wind_raw
+    description: "Staging table for renaming columns, removing null values"
+    columns:
+      - name: wind_speed
+        description: "wind speed aggregate for 5 minute interval"
+        tests:
+          - not_null
+        

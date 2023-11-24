@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: wind_energy_raw
+  - name: raw
     database: wired-ripsaw-403910
     schema: wind_energy_raw
     tables:

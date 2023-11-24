@@ -8,6 +8,7 @@ WITH source_data AS (
     FROM {{source("wind_energy_raw", "upd_wind")}}
     ORDER BY date_time
 ),
+-- Remove rows with null values
 cleaned_data AS (
     SELECT *
     FROM source_data
