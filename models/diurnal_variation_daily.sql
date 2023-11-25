@@ -9,7 +9,7 @@ SELECT
     days,
     hours,
     
-    ROUND(AVG(wind_speed)) AS avg_wind_speed
+    ROUND(AVG(wind_speed),3) AS avg_wind_speed
 
 FROM feature_wind
 
