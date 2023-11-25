@@ -1,28 +1,5 @@
-WITH feature_wind AS (
-    SELECT * FROM {{ ref("feature_wind") }}
-),
-
-max_wind_speed AS (
-    SELECT CEIL(MAX(wind_speed)) AS max_speed
-
-    FROM feature_wind
-),
-
-binned_speed AS (
-    SELECT  
-        fw.years,
-        fw.wind_speed,
-
-        CAST(
-            CASE
-                WHEN CEIL(fw.wind_speed / mws.max_speed * (mws.max_speed - 1)) = 0 THEN 1
-                ELSE CEIL(fw.wind_speed / mws.max_speed * (mws.max_speed))
-            END
-            AS INT64
-            ) AS speed_bin
-
-    FROM feature_wind AS fw
-    CROSS JOIN max_wind_speed AS mws
+WITH binned_speed AS (
+    SELECT * FROM {{ ref("binned_speed") }}
 ),
 
 yearly_counts AS (
