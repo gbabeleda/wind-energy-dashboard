@@ -1,43 +1,34 @@
-WITH cardinal_directions_hourly AS (
-    SELECT * FROM {{ ref('cardinal_directions_hourly') }}
+WITH cardinal_directions AS (
+    SELECT * FROM {{ ref('cardinal_directions') }}
 ),
 
 frequency AS (
     SELECT
         years,
-        months,
-        year_month,
-        days,
         cardinal_direction,
         speed_bin,
 
         COUNT(*) AS count_freq
 
-    FROM cardinal_directions_hourly
+    FROM cardinal_directions
 
-    GROUP BY 1,2,3,4,5,6
+    GROUP BY 1,2,3
 ),
 
 total_frequency AS (
     SELECT
         years,
-        months,
-        year_month,
-        days,
 
         COUNT(*) AS count_total
     
-    FROM cardinal_directions_hourly
+    FROM cardinal_directions
 
-    GROUP BY 1,2,3,4
+    GROUP BY 1
 ),
 
 percent_frequency AS (
     SELECT
         years,
-        months,
-        year_month,
-        days,
         cardinal_direction,
         speed_bin,
         count_freq,
@@ -52,23 +43,19 @@ percent_frequency AS (
 
     JOIN total_frequency
 
-    USING(years,months,year_month,days)
+    USING(years)
 ),
 
 cumulative_frequency AS (
     SELECT 
         years,
-        months,
-        year_month,
-        days,
         cardinal_direction,
         speed_bin,
         count_freq,
         count_total,
         perc_freq,
-
         ROUND(SUM(perc_freq) OVER (
-            PARTITION BY years,months,year_month,days,cardinal_direction
+            PARTITION BY years,cardinal_direction
             ORDER BY speed_bin
             ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
         ),3) AS cumulative_perc_freq
@@ -78,4 +65,4 @@ cumulative_frequency AS (
 
 SELECT * FROM cumulative_frequency
 
-ORDER BY 1,2,3,4,5,6
+ORDER BY 1,2,3

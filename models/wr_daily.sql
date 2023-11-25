@@ -1,5 +1,5 @@
-WITH cardinal_directions_hourly AS (
-    SELECT * FROM {{ ref('cardinal_directions_hourly') }}
+WITH cardinal_directions AS (
+    SELECT * FROM {{ ref('cardinal_directions') }}
 ),
 
 frequency AS (
@@ -13,7 +13,7 @@ frequency AS (
 
         COUNT(*) AS count_freq
 
-    FROM cardinal_directions_hourly
+    FROM cardinal_directions
 
     GROUP BY 1,2,3,4,5,6
 ),
@@ -27,7 +27,7 @@ total_frequency AS (
 
         COUNT(*) AS count_total
     
-    FROM cardinal_directions_hourly
+    FROM cardinal_directions
 
     GROUP BY 1,2,3,4
 ),
