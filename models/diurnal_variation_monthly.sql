@@ -1,5 +1,5 @@
-WITH feature_wind AS (
-    SELECT * FROM {{ ref('feature_wind') }}
+WITH feature_wind_hourly AS (
+    SELECT * FROM {{ ref('feature_wind_hourly') }}
 )
 
 SELECT 
@@ -8,9 +8,9 @@ SELECT
     year_month,
     hours,
     
-    ROUND(AVG(wind_speed),3) AS avg_wind_speed
+    ROUND(AVG(avg_wind_speed),3) AS avg_wind_speed
 
-FROM feature_wind
+FROM feature_wind_hourly
 
 GROUP BY 1, 2, 3, 4
 
