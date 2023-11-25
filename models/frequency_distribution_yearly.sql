@@ -11,8 +11,6 @@ max_wind_speed AS (
 binned_speed AS (
     SELECT  
         fw.years,
-        fw.months,
-        fw.year_month,
         fw.wind_speed,
 
         CAST(
@@ -27,35 +25,31 @@ binned_speed AS (
     CROSS JOIN max_wind_speed AS mws
 ),
 
-monthly_counts AS (
+yearly_counts AS (
     SELECT  
         years,
-        months,
-        year_month,
         speed_bin,
         
         COUNT(*) AS frequency,
 
-        SUM(COUNT(*)) OVER (PARTITION BY years,months) AS monthly_total
+        SUM(COUNT(*)) OVER (PARTITION BY years) AS yearly_total
 
     FROM binned_speed
     
-    GROUP BY 1,2,3,4
+    GROUP BY 1,2
 ),
 
-frequency_distribution_monthly AS (
+frequency_distribution_yearly AS (
     SELECT
         years,
-        months,
-        year_month,
         speed_bin,
         frequency,
-        ROUND(( frequency / monthly_total ) * 100 ,3) AS percent_frequency
+        ROUND(( frequency / yearly_total ) * 100 ,3) AS percent_frequency
 
-    FROM monthly_counts
+    FROM yearly_counts
 
 )
 
-SELECT * FROM frequency_distribution_monthly
+SELECT * FROM frequency_distribution_yearly
 
-ORDER BY 1,2,3,4
+ORDER BY 1,2
