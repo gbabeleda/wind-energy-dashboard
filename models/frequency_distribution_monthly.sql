@@ -16,9 +16,12 @@ binned_speed AS (
         fw.wind_speed,
 
         CAST(
-          CEIL(fw.wind_speed / mws.max_speed * mws.max_speed) 
-          AS INT64
-        ) AS speed_bin
+            CASE
+                WHEN CEIL(fw.wind_speed / mws.max_speed * (mws.max_speed - 1)) = 0 THEN 1
+                ELSE CEIL(fw.wind_speed / mws.max_speed * (mws.max_speed - 1))
+            END
+            AS INT64
+            ) AS speed_bin
 
     FROM feature_wind AS fw
     CROSS JOIN max_wind_speed AS mws
