@@ -11,4 +11,4 @@ SELECT
     wind_speed,
     wind_direction
     
-FROM {{ ref('stg_wind_raw') }}
+FROM {{ ref('stg_wind') }}
