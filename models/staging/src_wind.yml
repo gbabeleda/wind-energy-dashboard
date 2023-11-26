@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw
+    database: wired-ripsaw-403910
+    schema: wind_energy_raw
+    tables:
+      - name: upd_wind
