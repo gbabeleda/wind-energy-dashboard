@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_wind
+    columns:
+      - name: date_time
+        tests:
+          - not_null
+          - unique      
+
+      - name: wind_speed
+        tests:
+          - not_null
+              
+
+      - name: gust_speed
+        tests:
+            - not_null
+
+
+      - name: wind_direction
+        tests:
+          - not_null
