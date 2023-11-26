@@ -1,25 +1,25 @@
-{{ config(materialized='table') }}
+{# Features aggregated by hour#}
+with
+    feature_wind as (select * from {{ ref("feature_wind") }}),
 
-WITH feature_wind AS (
-    SELECT * FROM {{ ref("feature_wind") }}
-),
+    feature_wind_hourly as (
 
-feature_wind_hourly AS (
-    SELECT 
-        years,
-        months,
-        year_month,
-        days,
-        hours,
+        select
+            years,
+            months,
+            year_month,
+            days,
+            hours,
 
-        ROUND(AVG(wind_speed),4) AS avg_wind_speed,
-        ROUND(AVG(wind_direction),4) AS avg_wind_direction
-    
-    FROM feature_wind
-    
-    GROUP BY 1,2,3,4,5
-)
+            round(avg(wind_speed), 4) as avg_wind_speed,
+            round(avg(wind_direction), 4) as avg_wind_direction
 
-SELECT * FROM feature_wind_hourly
+        from feature_wind
 
-ORDER BY 1,2,3,4,5
+        group by 1, 2, 3, 4, 5
+
+        order by 1, 2, 3, 4, 5
+    )
+
+select *
+from feature_wind_hourly

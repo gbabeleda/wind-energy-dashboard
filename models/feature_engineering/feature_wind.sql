@@ -1,14 +1,27 @@
-{{ config(materialized='table') }}
-
 {# Feature Engineering (?) #}
-SELECT 
-    EXTRACT(YEAR FROM date_time) AS years,
-    EXTRACT(MONTH FROM date_time) AS months,
-    FORMAT_TIMESTAMP('%Y-%B', date_time) as year_month,
-    EXTRACT(DAY FROM date_time) AS days,
-    EXTRACT(HOUR FROM date_time) + 1 AS hours,
+with
+    stg_wind as (
 
-    wind_speed,
-    wind_direction
-    
-FROM {{ ref('stg_wind') }}
+        select date_time, wind_speed, wind_direction from {{ ref("stg_wind") }}
+
+    ),
+
+    date_time_features as (
+
+        select
+            extract(year from date_time) as years,
+            extract(month from date_time) as months,
+            format_timestamp('%Y-%B', date_time) as year_month,
+            extract(day from date_time) as days,
+            extract(hour from date_time) + 1 as hours,
+
+            wind_speed,
+            wind_direction
+
+        from stg_wind
+
+        order by 1, 2, 4, 5
+    )
+
+select *
+from date_time_features

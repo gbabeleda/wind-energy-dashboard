@@ -1,32 +1,36 @@
-WITH binned_speed AS (
-    SELECT * FROM {{ ref("binned_speed") }}
-),
+with
+    binned_speed as (select * from {{ ref("binned_speed") }}),
 
-yearly_counts AS (
-    SELECT  
-        years,
-        speed_bin,
+    yearly_counts as (
         
-        COUNT(*) AS frequency,
+        select
+            years,
+            speed_bin,
 
-        SUM(COUNT(*)) OVER (PARTITION BY years) AS yearly_total
+            count(*) as frequency,
 
-    FROM binned_speed
-    
-    GROUP BY 1,2
-),
+            sum(count(*)) over (partition by years) as yearly_total
 
-frequency_distribution_yearly AS (
-    SELECT
-        years,
-        speed_bin,
-        frequency,
-        ROUND(( frequency / yearly_total ) * 100 ,3) AS percent_frequency
+        from binned_speed
 
-    FROM yearly_counts
+        group by 1, 2
+    ),
 
-)
+    frequency_distribution_yearly as (
+        
+        select
+            years,
+            speed_bin,
+            frequency,
+            
+            round((frequency / yearly_total) * 100, 3) as percent_frequency
 
-SELECT * FROM frequency_distribution_yearly
+        from yearly_counts
+        
+        order by 1, 2
+    )
 
-ORDER BY 1,2
+select *
+from frequency_distribution_yearly
+
+

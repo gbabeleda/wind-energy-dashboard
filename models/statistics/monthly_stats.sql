@@ -1,17 +1,21 @@
-WITH feature_wind AS (
-    SELECT * FROM {{ ref('feature_wind') }}
-)
+with 
+    feature_wind as (select * from {{ ref("feature_wind") }}),
 
-SELECT 
-    years,
-    months,
-    year_month,
-    
-    MAX(wind_speed) AS max_speed,
-    MIN(wind_speed) AS min_speed,
-    ROUND(AVG(wind_speed),3) AS avg_speed
+    monthly_stats as (
+        select
+            years,
+            months,
+            year_month,
 
-FROM feature_wind
+            max(wind_speed) as max_speed,
+            min(wind_speed) as min_speed,
+            round(avg(wind_speed), 3) as avg_speed
 
-GROUP BY 1,2,3
-ORDER BY 1,2,3
+        from feature_wind
+
+        group by 1, 2, 3
+        order by 1, 2, 3
+    )
+
+select * from monthly_stats
+

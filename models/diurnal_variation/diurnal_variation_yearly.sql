@@ -1,19 +1,20 @@
-WITH feature_wind_hourly AS (
-    SELECT * FROM {{ ref('feature_wind_hourly') }}
-), 
+with
+    feature_wind_hourly as (select * from {{ ref("feature_wind_hourly") }}),
 
-diurnal_variation_yearly AS (
-    SELECT 
-        years,
-        hours,
+    diurnal_yearly as (
         
-        ROUND(AVG(avg_wind_speed),3) AS avg_wind_speed
+        select 
+            years, 
+            hours, 
+        
+            round(avg(avg_wind_speed), 3) as avg_wind_speed
 
-    FROM feature_wind_hourly
+        from feature_wind_hourly
 
-    GROUP BY 1, 2
-)
+        group by 1, 2
 
-SELECT * FROM diurnal_variation_yearly
+        order by 1, 2
+    )
 
-ORDER BY 1, 2
+select *
+from diurnal_yearly

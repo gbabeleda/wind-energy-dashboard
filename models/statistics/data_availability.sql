@@ -1,21 +1,17 @@
 with
+    feature_wind as (select * from {{ ref("feature_wind") }}),
 
-feature_wind as (
-    select * from {{ ref("feature_wind") }}
-),
+    data_availability as (
+        select years, months, year_month, count(distinct days) as count_days
 
-data_availability as (
-    select 
-        years, 
-        months, 
-        year_month, 
-        count(distinct days) as count_days
+        from feature_wind
 
-    from feature_wind
+        group by 1, 2, 3
 
-    group by 1, 2, 3
-)
+        order by 1, 2, 3
+    )
 
-select * from data_availability
+select *
+from data_availability
 
-order by 1, 2, 3
+

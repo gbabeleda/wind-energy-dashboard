@@ -1,68 +1,60 @@
-WITH cardinal_directions AS (
-    SELECT * FROM {{ ref('cardinal_directions') }}
-),
+with
+    cardinal_directions as (select * from {{ ref("cardinal_directions") }}),
 
-frequency AS (
-    SELECT
-        years,
-        cardinal_direction,
-        speed_bin,
+    frequency as (
+        select years, cardinal_direction, speed_bin, count(*) as count_freq
 
-        COUNT(*) AS count_freq
+        from cardinal_directions
 
-    FROM cardinal_directions
+        group by 1, 2, 3
+    ),
 
-    GROUP BY 1,2,3
-),
+    total_frequency as (
+        select years, count(*) as count_total from cardinal_directions group by 1
+    ),
 
-total_frequency AS (
-    SELECT
-        years,
+    percent_frequency as (
+        select
+            years,
+            cardinal_direction,
+            speed_bin,
+            count_freq,
+            count_total,
 
-        COUNT(*) AS count_total
-    
-    FROM cardinal_directions
+            case
+                when count_total > 0
+                then round((count_freq * 100) / count_total, 3)
+                else 0
+            end as perc_freq
 
-    GROUP BY 1
-),
+        from frequency
 
-percent_frequency AS (
-    SELECT
-        years,
-        cardinal_direction,
-        speed_bin,
-        count_freq,
-        count_total,
+        join total_frequency using (years)
+    ),
 
-        CASE 
-            WHEN count_total > 0 THEN ROUND((count_freq * 100) / count_total,3)
-        ELSE 0
-        END AS perc_freq
-    
-    FROM frequency
+    cumulative_frequency as (
+        select
+            years,
+            cardinal_direction,
+            speed_bin,
+            count_freq,
+            count_total,
+            perc_freq,
+            round(
+                sum(perc_freq) over (
+                    partition by years, cardinal_direction
+                    order by speed_bin
+                    rows between unbounded preceding and current row
+                ),
+                3
+            ) as cumulative_perc_freq
 
-    JOIN total_frequency
+        from percent_frequency
 
-    USING(years)
-),
+        order by 1, 2, 3
+    )
 
-cumulative_frequency AS (
-    SELECT 
-        years,
-        cardinal_direction,
-        speed_bin,
-        count_freq,
-        count_total,
-        perc_freq,
-        ROUND(SUM(perc_freq) OVER (
-            PARTITION BY years,cardinal_direction
-            ORDER BY speed_bin
-            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-        ),3) AS cumulative_perc_freq
-    
-    FROM percent_frequency
-)
+select *
+from cumulative_frequency
 
-SELECT * FROM cumulative_frequency
 
-ORDER BY 1,2,3

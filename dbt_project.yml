@@ -36,5 +36,13 @@ clean-targets: # directories to be removed by `dbt clean`
 models:
   wind_dashboard_dbt:
     # Applies to all files under models/example/
-    example:
+    feature_engineering:
+      +materialized: table
+    diurnal_variation:
+      +materialized: table
+    wind_rose:
+      +materialized: table
+    frequency_distribution:
+      +materialized: table
+    statistics:
       +materialized: table

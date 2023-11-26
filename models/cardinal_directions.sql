@@ -1,59 +1,71 @@
-WITH feature_wind AS (
-    SELECT * FROM {{ ref("feature_wind") }}
-),
+with
+    feature_wind as (select * from {{ ref("feature_wind") }}),
 
-binned_speed AS (
-    SELECT * FROM {{ ref("binned_speed") }}
-),
-joined_filtered AS (
-    SELECT 
-        years,
-        months,
-        year_month,
-        days,
-        hours,
-        
-        bs.speed_bin,
+    binned_speed as (select * from {{ ref("binned_speed") }}),
 
-        wind_speed,
+    joined_filtered as (
+        select
+            years,
+            months,
+            year_month,
+            days,
+            hours,
 
-        fw.wind_direction,
+            bs.speed_bin,
 
-    FROM feature_wind AS fw
+            wind_speed,
 
-    JOIN binned_speed AS bs
-    
-    USING(years,months,year_month,days,hours,wind_speed)
+            fw.wind_direction,
 
-    WHERE wind_speed > 0 
-),
-cardinal_directions AS (
-    SELECT 
-        years,
-        months,
-        year_month,
-        days,
-        hours,
-        
-        CASE 
-            WHEN wind_direction BETWEEN 0 AND 22.5 THEN 'N'
-			WHEN wind_direction BETWEEN 22.5 AND 67.5 THEN 'NE'
-			WHEN wind_direction BETWEEN 67.5 AND 112.5 THEN 'E'
-			WHEN wind_direction BETWEEN 112.5 AND 157.5 THEN 'SE'
-			WHEN wind_direction BETWEEN 157.5 AND 202.5 THEN 'S'
-			WHEN wind_direction BETWEEN 202.5 AND 247.5 THEN 'SW'
-			WHEN wind_direction BETWEEN 247.5 AND 292.5 THEN 'W'
-			WHEN wind_direction BETWEEN 292.5 AND 337.5 THEN 'NW'
-			WHEN wind_direction BETWEEN 337.5 AND 360 THEN 'N'
-		END AS cardinal_direction,
+        from feature_wind as fw
 
-        wind_direction,
-        speed_bin,
-        wind_speed
-    
-    FROM joined_filtered 
-)
+        join
+            binned_speed as bs using (
+                years, months, year_month, days, hours, wind_speed
+            )
 
-SELECT * FROM cardinal_directions
+        where wind_speed > 0
+    ),
 
-ORDER BY 1,2,3,4,5,6
+    cardinal_directions as (
+        select
+            years,
+            months,
+            year_month,
+            days,
+            hours,
+
+            case
+                when wind_direction between 0 and 22.5
+                then 'N'
+                when wind_direction between 22.5 and 67.5
+                then 'NE'
+                when wind_direction between 67.5 and 112.5
+                then 'E'
+                when wind_direction between 112.5 and 157.5
+                then 'SE'
+                when wind_direction between 157.5 and 202.5
+                then 'S'
+                when wind_direction between 202.5 and 247.5
+                then 'SW'
+                when wind_direction between 247.5 and 292.5
+                then 'W'
+                when wind_direction between 292.5 and 337.5
+                then 'NW'
+                when wind_direction between 337.5 and 360
+                then 'N'
+            end as cardinal_direction,
+
+            wind_direction,
+            speed_bin,
+            wind_speed
+
+        from joined_filtered
+
+        order by 1, 2, 3, 4, 5, 6
+    )
+
+select *
+from cardinal_directions
+
+
