@@ -18,6 +18,7 @@ seed-paths: ["dbt/seeds"]
 macro-paths: ["dbt/macros"]
 snapshot-paths: ["dbt/snapshots"]
 
+
 target-path: "dbt/target" # directory which will store compiled SQL files
 clean-targets: # directories to be removed by `dbt clean`
   - "dbt/target"
