@@ -2,22 +2,27 @@ version: 2
 
 models:
   - name: stg_wind
+    description: Staging for wind data, removed null values, ensured correct data types, renamed columns. 
     columns:
       - name: date_time
+        description: Time stamp for each wind record
         tests:
           - not_null
           - unique      
 
       - name: wind_speed
+        description: Average wind speed, calculated from 10 samples taken at 10 second intevals
         tests:
           - not_null
               
 
       - name: gust_speed
+        description: Peak wind speed recorded over a 3 second interval during each 10 second sampling interval
         tests:
             - not_null
 
 
       - name: wind_direction
+        description: Origin direction of the wind
         tests:
           - not_null
