@@ -16,3 +16,5 @@ ipykernel==6.25.2               # ipython kernel for jupyter, allows use of ipyt
 google-cloud-bigquery==3.12.0   # May be used to host data on bigquery
 vizro==0.1.5                    # Dashboard tool
 streamlit==1.28.0               # Dashboard tool
+google-auth==2.23.3
+db-dtypes
