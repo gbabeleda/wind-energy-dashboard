@@ -1,3 +1,4 @@
 **/.DS_Store
 /wind_dashboard
-/secrets
+/gcp_secrets
+streamlit/.streamlit
