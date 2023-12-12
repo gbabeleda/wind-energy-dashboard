@@ -1,4 +1,4 @@
-![Image ALT text](assets/dalle-wind-farm.png)
+![Image ALT text](streamlit/assets/lineage_graph.png)
 
 # Wind Energy Dashboard 
 
