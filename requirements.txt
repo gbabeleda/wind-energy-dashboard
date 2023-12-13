@@ -7,9 +7,7 @@ numpy==1.26.0
 # Visualization
 plotly==5.17.0                              
 
-# Postgres
-psycopg2==2.9.9                 
-sqlalchemy==2.0.22              
+# Postgres             
 
 # Jupyter and Magic Commands
 jupyter==1.0.0                  
