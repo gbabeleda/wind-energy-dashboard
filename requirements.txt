@@ -5,9 +5,7 @@ scipy==1.11.3
 numpy==1.26.0                   
 
 # Visualization
-plotly==5.17.0                  
-matplotlib==3.8.0               
-seaborn==0.13.0                 
+plotly==5.17.0                              
 
 # Postgres
 psycopg2==2.9.9                 
@@ -24,8 +22,7 @@ ipykernel==6.25.2
 google-cloud-bigquery==3.12.0   # May be used to host data on bigquery
 google-auth==2.23.3
 
-# Dashboard/Deployment
-vizro==0.1.5                    
+# Dashboard/Deployment               
 streamlit==1.28.0               
 db-dtypes==1.1.1
 
