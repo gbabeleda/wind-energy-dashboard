@@ -11,3 +11,7 @@ client = bigquery.Client(credentials=gcp_credentials)
 
 # Page Body
 st.title("Wind Resource Assessment Dashboard")
+st.write("By Jose Mari Angelo Abeleda")
+st.divider()
+
+
