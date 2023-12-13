@@ -16,7 +16,7 @@ with st.container():
         "static/images/bigquery.svg",
         "static/images/dbt.png",
         "static/images/github.png",
-        "static/images/pandas.jpeg",
+        "static/images/pandas.png",
         "static/images/plotly.png",
         "static/images/Postgresql_elephant.svg.png",
         "static/images/Python.png",

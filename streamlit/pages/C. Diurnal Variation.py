@@ -45,7 +45,7 @@ with st.sidebar:
 
 filtered_day = diur_daily[(diur_daily['years'] == selected_year) & (diur_daily['months'] == selected_month) & (diur_daily['days'] == selected_day)].sort_values(by=['hours'],ascending=True)
 filtered_month = diur_monthly[(diur_monthly['years'] == selected_year) & (diur_monthly['months'] == selected_month)].sort_values(by=['hours'],ascending=True)
-filteered_year = diur_yearly[diur_yearly['years'] == selected_year].sort_values(by=['hours'],ascending=True)
+filtered_year = diur_yearly[diur_yearly['years'] == selected_year].sort_values(by=['hours'],ascending=True)
 
 
 fig_1 = px.line(
@@ -67,7 +67,7 @@ fig_2 = px.line(
 )
 
 fig_3 = px.line(
-    data_frame=filteered_year,
+    data_frame=filtered_year,
     x="hours",
     y="avg_wind_speed",
     labels={"avg_wind_speed" : "Mean Hourly Wind Speed", "hours" : "Hour"},
