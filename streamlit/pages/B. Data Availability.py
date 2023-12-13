@@ -17,7 +17,7 @@ def get_data():
     query = "select * from `wired-ripsaw-403910.dbt_gbabeleda.data_availability`"
     return client.query(query=query).to_dataframe()
 
-data_availability = pd.DataFrame(get_data()).sort_values(by=["years","months"],ascending=False)
+data_availability = get_data().sort_values(by=["years","months"],ascending=False)
 
 # Page Body
 st.title("Data Availability")
