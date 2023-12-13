@@ -1,0 +1,30 @@
+# Data Maniuplation
+pandas==2.1.1                   
+openpyxl==3.1.2                 
+scipy==1.11.3                   
+numpy==1.26.0                   
+
+# Visualization
+plotly==5.17.0                              
+
+# Postgres
+psycopg2==2.9.9                 
+sqlalchemy==2.0.22              
+
+# Jupyter and Magic Commands
+jupyter==1.0.0                  
+nbconvert==7.11.0               
+ipython==8.16.1                 
+ipython-sql==8.16.1             
+ipykernel==6.25.2               
+
+# Bigquery things
+google-cloud-bigquery==3.12.0   # May be used to host data on bigquery
+google-auth==2.23.3
+
+# Dashboard/Deployment               
+streamlit==1.28.0               
+db-dtypes==1.1.1
+
+# Machine Learning
+scikit-learn

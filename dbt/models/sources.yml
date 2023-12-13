@@ -7,4 +7,7 @@ sources:
     tables:
       - name: upd_wind
         description: The raw data for the wind site. No cleaning or manipulations have been done, sans renaming the column names to be parse-able. 
-        
+        columns:
+          - name: datetime
+            tests:
+              - unique
