@@ -1,26 +1,33 @@
-pandas==2.1.1                   # For data manipulation
-openpyxl==3.1.2                 # For excel file handling
-scipy==1.11.3                   # Scientific and technical computing
-numpy==1.26.0                   # For numerical computing
+# Data Maniuplation
+pandas==2.1.1                   
+openpyxl==3.1.2                 
+scipy==1.11.3                   
+numpy==1.26.0                   
 
-plotly==5.17.0                  # For interactive plots
-matplotlib==3.8.0               # For static plots and dependencies
-seaborn==0.13.0                 # For static plots and dependencies
+# Visualization
+plotly==5.17.0                  
+matplotlib==3.8.0               
+seaborn==0.13.0                 
 
-psycopg2==2.9.9                 # For PostgreSQL adapter for python
-sqlalchemy==2.0.22              # SQL toolkit and ORM
+# Postgres
+psycopg2==2.9.9                 
+sqlalchemy==2.0.22              
 
-jupyter==1.0.0                  # Interactive computing environment
-nbconvert==7.11.0               # Convert jupyter notebooks into other formats
-ipython==8.16.1                 # Enhanced interactive python shell
-ipython-sql==8.16.1             # For sql macgic commands in jupyter cells
-ipykernel==6.25.2               # ipython kernel for jupyter, allows use of ipython within jupyter notebooks
+# Jupyter and Magic Commands
+jupyter==1.0.0                  
+nbconvert==7.11.0               
+ipython==8.16.1                 
+ipython-sql==8.16.1             
+ipykernel==6.25.2               
 
+# Bigquery things
 google-cloud-bigquery==3.12.0   # May be used to host data on bigquery
 google-auth==2.23.3
 
-vizro==0.1.5                    # Dashboard tool
-streamlit==1.28.0               # Dashboard tool
+# Dashboard/Deployment
+vizro==0.1.5                    
+streamlit==1.28.0               
 db-dtypes==1.1.1
 
+# Machine Learning
 scikit-learn
