@@ -12,7 +12,7 @@ gcp_credentials = service_account.Credentials.from_service_account_info(
 client = bigquery.Client(credentials=gcp_credentials)
 
 # Pulling Data from BQ
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=6000)
 def get_data():
     query = "select * from `wired-ripsaw-403910.dbt_gbabeleda.frequency_distribution_monthly`"
     query_2 = "select * from `wired-ripsaw-403910.dbt_gbabeleda.frequency_distribution_yearly`"
