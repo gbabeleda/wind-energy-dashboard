@@ -1,24 +1,37 @@
-![Image ALT text](streamlit/assets/lineage_graph.png)
-
 # Wind Energy Dashboard 
 
-This repository holds the project files to build a wind resource assessment dashboard of one particular wind site at the University of the Philippines Diliman designated as Version 1.0
+This streamlit dashboard was made to showcase the usefulness of
+the modern data stack in energy applications, specifically, that 
+of wind energy resource assessment of a particular site at the University of the Philippines Diliman.
 
-Production for Version 1.0 officially started on Nov 2, 2023 and uses Python 3.12.0
+The same analysis can be done to other wind sites (with improvements) and a catalogue of wind sites could (hypothetically) be done.
+
+The latest implementation of this project uses bigquery, dbt, and streamlit. 
+
+Prior iterations have used postgres, raw sql/psycopg, and vizro. 
 
 ## Data Declaration
-The data used in this project was provided by the Energy Engineering 205 course under the Energy Engineering Program at the University of the Philippines Diliman.
 
-This project is purely a educational and training endeavour, and does not aim to infringe on the copyright of the data. 
+The data used in this dashboard was provided via the Geodetic Engineering 
+Component of the Energy Engineering 205 Laboratory class presided over by 
+Engineer Rosario Ang, under the Energy Engineering Program of the University of the Philippines Diliman
+
+The author of the dashboard would like to note the following:
+- Acknowledge the Applied Geodesy and Space Technology Research Laboratory (AGST Lab) of the UP Training Center for Applied Geodesy & Photogrammetry (TCAGP), College of Engineering, UP Diliman. 
+- Express that this data is only used for improvement of skill in the following fields:
+  - Wind Resource Assessment
+  - Python and SQl Proficiency
+  - The use modern data tools to systemetically 
 
 # Project Overview
 
 The project has three main goals: 
 - Conduct a wind resource assessment analysis to demonstrate domain knowledge
-- Use python and SQL, either together or separately for the analysis and data visualization to demonstrate skill proficiency
+- Use the modern data stack and programming languag
 - Use a dashboarding library (Vizro/Streamlit/Dash) to create a custom dashboard to demonstrate skill proficiency
 
 # Domain Knowledge: Wind Resource Assessment
+
 ### Data Availability
 Not required for the project, however it is important to understand the availability of the data for the entire year, if not simply to avoid the months where data is incomplete for data needed 30/31 days out of a month
 
@@ -89,8 +102,9 @@ Data Needed
 - f(v) * p(v) * 24 for Daily Energy Production
 - f(v) * p(v) * 8760 for Yearly Energy Production
 
-$YEY(v_m) = \sum_{v=1}^{25} f(v)P(v)24$
-$YEY(v_m) = \sum_{v=1}^{25} f(v)P(v)8760$
+$$YEY(v_m) = \sum_{v=1}^{25} f(v)P(v)24$$
+
+$$YEY(v_m) = \sum_{v=1}^{25} f(v)P(v)8760$$
 
 ## Requirements
 Graphs
@@ -114,109 +128,3 @@ $$f(v) = (\frac {k}{A}) (\frac {v}{A})^{k-1} exp - (\frac {v}{A})^k$$
 
 Where 
 $$ A = \frac {2}{\sqrt \pi}v_m$$
-
-
-# Analysis, Visualization, and Dashboarding
-
-## Analysis
-
-- Pure Excel Analysis 
-- Pure Python Using Pandas Dataframes
-- The use of SQL for most of the analysis. There are several sub-categories for this:
-  - Use of tools like pgAdmin and SQLTools Extension in VS Code to do raw SQL 
-  - Use of sql connectors like psycopg
-  - Use of sql ORMs like sqlalchemy
-  - Use of sql magic commands
-- Use of a datawarehouse like Google Bigquery
-
-For this work, we will be using SQL magic commands. 
-
-The workflow is as follows:
-- Setup a postgresql server instance on the local machine
-- Create a database, schema, and table 
-- Copy data from a clean csv of the wind data into the table
-- Query the data using the tool we chose (sql magic commands)
-- Transform the ResultSet Objects into dataframes for visualization and dashboarding
-
-## Visualization
-
-There are several python libraries for visualization 
-- Matplotlib
-- Seaborn
-- Plotly
-- Bokeh
-- etc
-
-For our purposes, we will be using Plotly for its interactivity and ease of downloading the result figures as pngs. 
-
-Specifically, we will be using the implementation of plotly in the dashboarding tool we will use, Vizro. 
-
-## Dashboard
-
-### Vizro
-
-Vizro is a wrapper of Dash, which is a wrapper of Flask. It was released in September, 2023. And I started using it Nov 8-9, 2023
-
-Its pretty useful because it filters the data visualization being shown based on certain controls that you set.
-
-#### Vizro Project Structure
-
-It is structured similarly to a dash app
-
-
-# Streamlit: Dashboard Project
-
-This project can also be implemented in stramlit
-
-#### Streamlit Project Structure
-- .streamlit/
-  - config.toml
-- app.py
-- requirements.txt
-- setup.sh
-- data/
-  - dataset.csv
-- modules/  
-  - data_loader.py
-  - helper_function.py
-- pages/
-  - overview.py
-  - details.py
-  - settings.py
-- static/
-  - images/
-    - logo.png
-  - stles/
-    - custom.css
-  - js/
-    - script.js
-- templates/
-  - custom_template.html
-
-It uses a virtual environment, with packages seen in the requirements.txt file. 
-
-An additional folder is the notebooks-sql folder which holds all the notebooks where most of the development actually took place. 
-
-A brief description of the roles/parts of the streamlit app can be seen below. 
-
-- app.py is the main entry point of the streamlit app
-- .streamlit/config.toml optional configuration file for setting up thigns like theme, page title, etc. 
-- requirements.txt a list of python packages that are required for the app to run
-- setup.sh an optional shell script that can be used to setup environment variables or streamlit setting when deploying
-- data/ directory for storing data fiels such as csvs, excel files, or sqlite databases
-- modules/ if the app has complex functionality, code can be organized into modules and import them in app.py
-- pages/ for a multi-page app, each scrip represents a different page in the dashboard
-- static/ holds static assets like images, css files for styling, and javascript files if necessary
-- templates/ if you need custom HTML templates
-
-# Project Setup
-- Create new repository on Github
-- Create .gitignore file for **/.DS_Store, .vscode/, .virtual_environment
-- Create relevant folders/files for dashboard project
-- Create virtual environment using `python3 -m venv wind_dashboard`
-- Activate using `source wind_dashboard/bin/activate`
-  - Deactivate using `deactivate`
-- Populate requirements.txt and install via `pip3 install -r requirements.txt` to virtual environment
-
-# Hosting
-
