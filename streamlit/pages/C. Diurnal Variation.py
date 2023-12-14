@@ -3,6 +3,10 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
+from streamlit_lottie import st_lottie
+
+# Set page config
+st.set_page_config(layout="wide",page_title="Diurnal Variation")
 
 # Connection to BQ
 gcp_credentials = service_account.Credentials.from_service_account_info(
@@ -12,7 +16,7 @@ gcp_credentials = service_account.Credentials.from_service_account_info(
 client = bigquery.Client(credentials=gcp_credentials)
 
 # Pulling Data from BQ
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=6000)
 def get_data():
     query = client.query("select * from `wired-ripsaw-403910.dbt_gbabeleda.diurnal_variation_daily`").to_dataframe()
     query_2 = client.query("select * from `wired-ripsaw-403910.dbt_gbabeleda.diurnal_variation_monthly`").to_dataframe()
@@ -75,23 +79,19 @@ fig_3 = px.line(
     markers=True
 )
 
-# fig_1.update_traces(
-#     textangle=0
-# )
-
-# fig_2.update_traces(
-#     textangle=0
-# )
-
-# fig_3.update_traces(
-#     textangle=0
-# )
-
 # Page Body
+st_lottie("https://lottie.host/bb5dc813-e48c-49d6-be29-8c6519a69cab/Stx1IKflzv.json")
 st.title("Diurnal Variation")
-st.divider()
 
 with st.container():
+    st.write(
+        """ 
+            Diurnal variation refers to the changes in wind patterns over a 24-hour period. These variations are influenced by local geography, temperature gradients, and atmospheric conditions. For example, coastal areas often experience diurnal cycles due to sea breezes: winds are generally stronger and more consistent during the day due to solar heating and weaker at night. Understanding diurnal patterns is vital for predicting wind energy output, as it impacts the efficiency and reliability of wind turbines. Energy providers use this information to anticipate daily fluctuations in energy production, aiding in grid management and energy distribution planning.
+        """
+    )
+    
+    st.divider()
+    
     st.plotly_chart(
         figure_or_data=fig_1,
         use_container_width=True

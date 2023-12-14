@@ -3,6 +3,10 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
+from streamlit_lottie import st_lottie
+
+# Set page config
+st.set_page_config(layout="wide",page_title="Wind Rose")
 
 # Connection to BQ
 gcp_credentials = service_account.Credentials.from_service_account_info(
@@ -12,7 +16,7 @@ gcp_credentials = service_account.Credentials.from_service_account_info(
 client = bigquery.Client(credentials=gcp_credentials)
 
 # Pulling Data from BQ
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=6000)
 def get_data():
     query = client.query("select * from `wired-ripsaw-403910.dbt_gbabeleda.wr_daily`").to_dataframe()
     query_2 = client.query("select * from `wired-ripsaw-403910.dbt_gbabeleda.wr_monthly`").to_dataframe()
@@ -82,10 +86,17 @@ fig_3 = px.bar_polar(
 )
 
 # Page Body
+st_lottie("https://lottie.host/bb5dc813-e48c-49d6-be29-8c6519a69cab/Stx1IKflzv.json")
 st.title("Wind Rose Hourly")
 st.divider()
 
 with st.container():
+    st.write(
+        """ 
+            Wind rose diagrams are graphical tools used in wind energy assessment to represent wind speed and direction data. They provide a visual summary of how wind speed and direction are distributed at a particular location over a specified period. The diagram resembles a flower with petals, where each petal represents the frequency of winds blowing from a particular direction. The length and color of each petal can indicate wind speed ranges or frequencies. Wind roses help in identifying prevailing wind directions and speeds, which is crucial for optimal turbine placement and understanding seasonal wind behavior.
+        """
+    )
+    
     st.plotly_chart(
         figure_or_data=fig_1,
         use_container_width=True

@@ -3,6 +3,10 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
+from streamlit_lottie import st_lottie
+
+# Set page config
+st.set_page_config(layout="wide",page_title="Statistics")
 
 # Connection to BQ
 gcp_credentials = service_account.Credentials.from_service_account_info(
@@ -12,7 +16,7 @@ gcp_credentials = service_account.Credentials.from_service_account_info(
 client = bigquery.Client(credentials=gcp_credentials)
 
 # Pulling Data from BQ
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=6000)
 def get_data():
     query = client.query("select * from `wired-ripsaw-403910.dbt_gbabeleda.monthly_stats`").to_dataframe()
     query_2 = client.query("select * from `wired-ripsaw-403910.dbt_gbabeleda.min_wind_instances`").to_dataframe()
@@ -86,7 +90,8 @@ fig_5 = px.scatter(
 )
 
 # Page Body
-st.title("Wind Rose Hourly")
+st_lottie("https://lottie.host/bb5dc813-e48c-49d6-be29-8c6519a69cab/Stx1IKflzv.json")
+st.title("Wind Statistics")
 st.divider()
 
 with st.container():
