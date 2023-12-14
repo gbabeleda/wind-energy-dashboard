@@ -4,6 +4,9 @@ from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
 
+# Set page config
+st.set_page_config(layout="wide")
+
 # Connection to BQ
 gcp_credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]

@@ -31,5 +31,26 @@ with st.container():
                 - Wind Resource Assessment
                 - Python and SQl Proficiency
                 - The use modern data tools to systemetically 
+                
+                
+                
+                        This project aims to create a dashboard to aid in determining
+            the theoretical wind energy potential of a site and to showcase
+            proficiency in certain technical skills in creating a dashboard
+            
+            This dashboard can theoretically be applied to any wind site. 
+            
+            Skills and Tools
+            - Python
+            - SQL
+            - Git and Github
+            - PostgreSQL
+            - Structuring a programming project (file structure, virtual environments, etc)
+            - Jupyter Notebooks
+            - Magic Commands
+            - Pandas
+            - Psycopg
+            - Dashboarding
+            - Vizro (Dashboarding Tool)
         """
     )

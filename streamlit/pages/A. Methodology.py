@@ -1,18 +1,20 @@
 import streamlit as st
-from pathlib import Path
+
+# Set page config
+st.set_page_config(layout="wide",page_title="Methodology")
 
 linear_graph_path = "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/lineage_graph.png"
 
 image_paths=[
+        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/Python.png",
+        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/sql.png",
         "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/bigquery.svg",
         "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/dbt.png",
         "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/github.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/pandas.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/plotly.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/Postgresql_elephant.svg.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/Python.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/sql.png",
         "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/streamlit.png",
+        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/plotly.png",
+        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/pandas.png",
+        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/Postgresql_elephant.svg.png",
         "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/docker.png"
     ]
 

@@ -4,6 +4,9 @@ from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
 
+# Set page config
+st.set_page_config(layout="wide",page_title="Diurnal Variation")
+
 # Connection to BQ
 gcp_credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
@@ -75,23 +78,21 @@ fig_3 = px.line(
     markers=True
 )
 
-# fig_1.update_traces(
-#     textangle=0
-# )
-
-# fig_2.update_traces(
-#     textangle=0
-# )
-
-# fig_3.update_traces(
-#     textangle=0
-# )
-
 # Page Body
 st.title("Diurnal Variation")
-st.divider()
+
 
 with st.container():
+    st.write(
+        """ 
+            Diurnal Variation is the variation of the average
+            hourly value of wind speeds during a 24-hour period.
+            
+        """
+    )
+    
+    st.divider()
+    
     st.plotly_chart(
         figure_or_data=fig_1,
         use_container_width=True
