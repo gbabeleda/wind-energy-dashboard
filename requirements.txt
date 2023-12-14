@@ -15,7 +15,7 @@ ipython-sql
 ipykernel==6.25.2               
 
 # Bigquery things
-google-cloud-bigquery==3.12.0   # May be used to host data on bigquery
+google-cloud-bigquery==3.12.0 
 google-auth==2.23.3
 
 # Dashboard/Deployment               
