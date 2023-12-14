@@ -11,7 +11,7 @@ plotly==5.17.0
 jupyter==1.0.0                  
 nbconvert==7.11.0               
 ipython==8.16.1                 
-ipython-sql==8.16.1             
+ipython-sql         
 ipykernel==6.25.2               
 
 # Bigquery things
@@ -19,7 +19,8 @@ google-cloud-bigquery==3.12.0   # May be used to host data on bigquery
 google-auth==2.23.3
 
 # Dashboard/Deployment               
-streamlit==1.28.0               
+streamlit==1.28.0   
+streamlit-lottie          
 db-dtypes==1.1.1
 
 # Machine Learning
