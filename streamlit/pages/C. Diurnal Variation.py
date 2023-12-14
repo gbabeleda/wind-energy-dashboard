@@ -3,6 +3,7 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
+from streamlit_lottie import st_lottie
 
 # Set page config
 st.set_page_config(layout="wide",page_title="Diurnal Variation")
@@ -79,15 +80,13 @@ fig_3 = px.line(
 )
 
 # Page Body
+st_lottie("https://lottie.host/bb5dc813-e48c-49d6-be29-8c6519a69cab/Stx1IKflzv.json")
 st.title("Diurnal Variation")
-
 
 with st.container():
     st.write(
         """ 
-            Diurnal Variation is the variation of the average
-            hourly value of wind speeds during a 24-hour period.
-            
+            Diurnal variation refers to the changes in wind patterns over a 24-hour period. These variations are influenced by local geography, temperature gradients, and atmospheric conditions. For example, coastal areas often experience diurnal cycles due to sea breezes: winds are generally stronger and more consistent during the day due to solar heating and weaker at night. Understanding diurnal patterns is vital for predicting wind energy output, as it impacts the efficiency and reliability of wind turbines. Energy providers use this information to anticipate daily fluctuations in energy production, aiding in grid management and energy distribution planning.
         """
     )
     

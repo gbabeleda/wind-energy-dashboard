@@ -3,6 +3,7 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
+from streamlit_lottie import st_lottie
 
 # Set page config
 st.set_page_config(layout="wide",page_title="Data Availability")
@@ -22,9 +23,6 @@ def get_data():
 
 data_availability = get_data().sort_values(by=["years","months"],ascending=False)
 
-# Page Body
-st.title("Data Availability")
-st.divider()
 
 # Plotly Graph
 fig = px.bar(
@@ -42,7 +40,12 @@ fig.update_traces(
     textangle=0
 )
 
-# Streamlit Page Content
+# Page Header
+st_lottie("https://lottie.host/bb5dc813-e48c-49d6-be29-8c6519a69cab/Stx1IKflzv.json")
+st.title("Data Availability")
+st.divider()
+
+# Page Body
 with st.container():
     st.write(
         """ 
