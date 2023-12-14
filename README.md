@@ -127,4 +127,4 @@ Answer
 $$f(v) = (\frac {k}{A}) (\frac {v}{A})^{k-1} exp - (\frac {v}{A})^k$$
 
 Where 
-$$ A = \frac {2}{\sqrt \pi}v_m$$
+$$A = \frac {2}{\sqrt \pi}v_m$$
