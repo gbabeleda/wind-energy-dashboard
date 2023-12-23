@@ -5,19 +5,19 @@ from streamlit_lottie import st_lottie
 st.set_page_config(layout="wide",page_title="Methodology")
 
 # Image github raw urls
-linear_graph_path = "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/lineage_graph.png"
+linear_graph_path = "streamlit_static/images/lineage_graph.png"
 
 image_paths=[
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/Python.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/sql.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/bigquery.svg",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/dbt.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/github.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/streamlit.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/plotly.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/pandas.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/Postgresql_elephant.svg.png",
-        "https://raw.githubusercontent.com/gbabeleda/wind-energy-dashboard/main/streamlit/static/images/docker.png"
+        "streamlit_static/images/Python.png",
+        "streamlit_static/images/sql.png",
+        "streamlit_static/images/bigquery.svg",
+        "streamlit_static/images/dbt.png",
+        "streamlit_static/images/github.png",
+        "streamlit_static/images/streamlit.png",
+        "streamlit_static/images/plotly.png",
+        "streamlit_static/images/pandas.png",
+        "streamlit_static/images/Postgresql_elephant.svg.png",
+        "streamlit_static/images/docker.png"
     ]
 
 # Page Body
