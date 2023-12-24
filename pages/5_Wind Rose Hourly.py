@@ -98,19 +98,20 @@ with st.container():
         """
     )
     
-    st.plotly_chart(
-        figure_or_data=fig_1,
-        use_container_width=True
-    )
+    tab1, tab2, tab3 = st.tabs(["Daily", "Monthly", "Yearly"])
     
-    col1, col2 = st.columns(2)
+    with tab1:
+        st.plotly_chart(
+            figure_or_data=fig_1,
+            use_container_width=True
+        )
     
-    with col1:
+    with tab2:
         st.plotly_chart(
             figure_or_data=fig_2,
             use_container_width=True
         )
-    with col2:
+    with tab3:
         st.plotly_chart(
             figure_or_data=fig_3,
             use_container_width=True

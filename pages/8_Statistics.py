@@ -95,33 +95,34 @@ st.title("Wind Statistics")
 st.divider()
 
 with st.container():
-    col1, col2 = st.columns(2)
+    tab1, tab2, tab3 = st.tabs(["Max Wind", "Min Wind", "Avg Wind"])
     
-    with col1:
+    with tab1:
         st.plotly_chart(
             figure_or_data=fig_1,
             use_container_width=True
         )
-    with col2:
+    with tab2:
         st.plotly_chart(
             figure_or_data=fig_2,
             use_container_width=True
         )
         
-    st.plotly_chart(
-        figure_or_data=fig_3,
-        use_container_width=True
-    )
+    with tab3:
+        st.plotly_chart(
+            figure_or_data=fig_3,
+            use_container_width=True
+        )
         
 with st.container():
-    col3, col4 = st.columns(2)
+    tab4, tab5 = st.tabs(["Max Wind Instances", "Min Wind Instances"])
     
-    with col3:
+    with tab4:
         st.plotly_chart(
             figure_or_data=fig_4,
             use_container_width=True
         )
-    with col4:
+    with tab5:
         st.plotly_chart(
             figure_or_data=fig_5,
             use_container_width=True
